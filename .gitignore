@@ -1,0 +1,7 @@
+target
+.idea
+*.iml
+/cache/*
+/lists/*
+/conf/cache.json
+/conf/lists.json

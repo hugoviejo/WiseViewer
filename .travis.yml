@@ -1,0 +1,23 @@
+language: java
+jdk: oraclejdk8
+sudo: false
+script: mvn clean package
+
+branches:
+  only:
+    - master
+    - /^v\d+\.\d+.*$/
+before_deploy:
+  - cd $TRAVIS_BUILD_DIR/target/appassembler
+  - export FILENAME=WiseViewer_$TRAVIS_TAG.zip
+  - zip -r -9 $FILENAME WiseViewer/
+
+deploy:
+  provider: releases
+  api_key: $GITHUBSECUREKEY
+  file: $FILENAME
+  skip_cleanup: true
+  on:
+    tags: true
+    branches:
+      only: /^v\d+\.\d+.*$/

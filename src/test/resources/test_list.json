@@ -1,0 +1,37 @@
+{
+  "author": "Ordus",
+  "name": "Test list",
+  "url": "https://ordus.com/test_list",
+  "contact": "test_list",
+  "info": "This is a test list:
+  had some groups and stations",
+  "groups": [
+    {
+      "name": "group 1",
+      "image": "http://ordus.com/gorup1.jpg",
+      "groups": [
+        {
+          "name": "group 1.1",
+          "image": "http://ordus.com/gorup1.1.jpg",
+          "stations": [
+            {
+              "name": "station 1",
+              "image": "http://ordus.com/station1.jpg",
+              "url": "http://ordus.com/station1.mp4"
+            }]
+        }],
+      "stations": [
+        {
+          "name": "station 2",
+          "image": "http://ordus.com/station2.png",
+          "url": "http://ordus.com/stream?file=2&width=650&height=400&autostart=true",
+          "referer": "http://ordus.com/streams/station2.html",
+          "isHost": "true"
+        },
+        {
+          "name": "station 3",
+          "image": "http://ordus.com/station3.gif",
+          "url": "http://ordus.com:1935/station3.m3u8"
+        }]
+    }]
+}
