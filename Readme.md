@@ -4,7 +4,7 @@ This is a visualization application for Wise Player list files.
 
 Features:
 
-* Auto download list file (tested with direct download, copy.com and pastebin.com)
+* Auto download list file (tested with direct download, copy.com, pastebin.com and w3ubin.com)
 * Auto download group images
 * Auto download station images
 * Cache images

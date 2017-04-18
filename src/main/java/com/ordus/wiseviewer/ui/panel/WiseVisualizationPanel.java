@@ -53,7 +53,9 @@ public class WiseVisualizationPanel extends JPanel {
         wiseService.updateProgress(i, itemSize);
         for (final Group currentGroup : group.getGroups()) {
             i++;
-            add(new GroupPanel(wiseService, currentGroup));
+            if(currentGroup != null) {
+                add(new GroupPanel(wiseService, currentGroup));
+            }
             wiseService.updateProgress(i, itemSize);
         }
         for (final Station currentStation : group.getStations()) {
