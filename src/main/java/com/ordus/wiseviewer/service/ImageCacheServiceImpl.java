@@ -54,6 +54,8 @@ public class ImageCacheServiceImpl implements ImageCacheService {
 
     private static final String TEMPFILE_PREFIX = "WiseViewer_file_";
 
+    private static Map<String, ImageIcon> resourceCache = new HashMap<>();
+
     private CacheParser cacheParser;
     private Map<String, CacheElement> cachedMap;
     private CloseableHttpClient httpClient;
@@ -69,42 +71,56 @@ public class ImageCacheServiceImpl implements ImageCacheService {
         cachedMap = loadCache();
     }
 
-    @Override public ImageIcon getImage(String url) {
-        CacheElement cacheElement = cachedMap.get(url);
+    @Override public ImageIcon getImage(String url, boolean isResource) {
         ImageIcon imageIconRet = null;
-        boolean needsDownload = false;
-        if (cacheElement != null) {
-            if (System.currentTimeMillis() - cacheElement.getDownloadedDate().getTime()
-                    < WiseConstants.FILE_CACHED_MILLISECONDS) {
+        if(isResource) {
+            imageIconRet = resourceCache.get(url);
+            if(imageIconRet == null) {
                 InputStream inputStream = null;
                 try {
-                    inputStream = Files.newInputStream(Paths.get(CACHE_DIR, cacheElement.getFile()));
+                    inputStream = this.getClass().getResourceAsStream(url);
                     imageIconRet = new ImageIcon(ImageIO.read(inputStream));
-                    cacheElement.setLastAccessDate(new Date());
+                    resourceCache.put(url, imageIconRet);
                 } catch (IOException e) {
-                    LOG.error("Error loading image: " + e.getMessage(), e);
+                    LOG.error("Error loading resource image: " + e.getMessage(), e);
+                }
+            }
+        } else {
+            CacheElement cacheElement = cachedMap.get(url);
+            boolean needsDownload = false;
+            if (cacheElement != null) {
+                if (System.currentTimeMillis() - cacheElement.getDownloadedDate().getTime()
+                        < WiseConstants.FILE_CACHED_MILLISECONDS) {
+                    InputStream inputStream = null;
+                    try {
+                        inputStream = Files.newInputStream(Paths.get(CACHE_DIR, cacheElement.getFile()));
+                        imageIconRet = new ImageIcon(ImageIO.read(inputStream));
+                        cacheElement.setLastAccessDate(new Date());
+                    } catch (IOException e) {
+                        LOG.error("Error loading image: " + e.getMessage(), e);
+                        needsDownload = true;
+                    }
+                    if (inputStream != null) {
+                        try {
+                            inputStream.close();
+                        } catch (IOException e) {
+                            //do nothing
+                        }
+                    }
+                } else {
                     needsDownload = true;
                 }
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        //do nothing
-                    }
-                }
+
             } else {
                 needsDownload = true;
             }
 
-        } else {
-            needsDownload = true;
-        }
-
-        if (needsDownload) {
-            imageIconRet = download(url);
-            //if (imageIconRet == null) {
-            //TODO if where cached and fails download return cached one
-            //}
+            if (needsDownload) {
+                imageIconRet = download(url);
+                //if (imageIconRet == null) {
+                //TODO if where cached and fails download return cached one
+                //}
+            }
         }
         return imageIconRet;
     }
@@ -207,7 +223,7 @@ public class ImageCacheServiceImpl implements ImageCacheService {
                 }
             } catch (Throwable e) {
                 //Catching Throwable to try to not to lose control of the process on an unexpected situation
-                LOG.error("ERROR: couldn't open URL: " + e.getMessage(), e);
+                LOG.error("ERROR: couldn't open URL: " + url + " - " + e.getMessage(), e);
             } finally {
                 if (closeableHttpResponse != null) {
                     try {

@@ -20,7 +20,6 @@ public class WiseList extends Group {
 
     private String author;
     private String contact;
-    private String info;
     private String url;
 
     /**
@@ -45,14 +44,6 @@ public class WiseList extends Group {
         this.contact = contact;
     }
 
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
     /**
      * @return The url
      */
@@ -72,7 +63,6 @@ public class WiseList extends Group {
                 super.toString() + ", " +
                 "author='" + author + '\'' +
                 ", contact='" + contact + '\'' +
-                ", info='" + info + '\'' +
                 ", url='" + url + '\'' +
                 '}';
     }

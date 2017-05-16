@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ordus.wiseviewer.domain.Group;
+import com.ordus.wiseviewer.service.LoadImageThread;
 import com.ordus.wiseviewer.service.WiseViewerService;
 import com.ordus.wiseviewer.util.WiseConstants;
 
@@ -48,12 +49,17 @@ public class GroupPanel extends JPanel {
                 new Dimension(WiseConstants.CELL_WIDTH, WiseConstants.CELL_HEIGHT + WiseConstants.CELL_HEIGHT_MARGIN));
         JLabel wIcon;
         try {
-            wIcon = new JLabel(wiseService.loadImage(group.getImage()));
+            Icon image = wiseService.loadImage(WiseConstants.DOWNLOADING_IMAGE, true);
+            wIcon = new JLabel(image);
         } catch (IOException | NullPointerException e) {
             LOG.warn("Error: " + e.getMessage() + " group: " + group, e);
             wIcon = new JLabel(group.getName());
         }
-        wIcon.setToolTipText(group.getName());
+        if (group.getInfo() != null) {
+            wIcon.setToolTipText(group.getInfo());
+        } else {
+            wIcon.setToolTipText(group.getName());
+        }
         wIcon.addMouseListener(new MouseAdapter() {
             @Override public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == 1) {
@@ -72,5 +78,7 @@ public class GroupPanel extends JPanel {
 
         add(wIcon, BorderLayout.CENTER);
         add(namePanel, BorderLayout.SOUTH);
+
+        new LoadImageThread(wiseService, wIcon, group.getImage(), WiseConstants.DEFAULT_GROUP_IMAGE);
     }
 }

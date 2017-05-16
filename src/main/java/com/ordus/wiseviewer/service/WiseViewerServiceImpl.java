@@ -185,24 +185,29 @@ public class WiseViewerServiceImpl implements WiseViewerService {
         }
     }
 
-    @Override public ImageIcon loadImage(String imageUrl) throws IOException {
-        ImageIcon imageIcon = imageCacheService.getImage(imageUrl);
+    @Override public ImageIcon loadImage(String imageUrl, boolean isResource) throws IOException {
+        ImageIcon imageIcon = imageCacheService.getImage(imageUrl, isResource);
         if (imageIcon == null) {
             return null;
         }
 
-        int iconWidth = imageIcon.getIconWidth();
-        int iconHeight = imageIcon.getIconHeight();
-        int newWidth;
-        int newHeight;
-        if (iconHeight > iconWidth) {
-            newHeight = WiseConstants.CELL_HEIGHT;
-            newWidth = (int) (iconWidth * ((float) newHeight / (float) iconHeight));
+        if (isResource) {
+            return imageIcon;
         } else {
-            newWidth = WiseConstants.CELL_WIDTH;
-            newHeight = (int) (iconHeight * ((float) newWidth / (float) iconWidth));
+            int iconWidth = imageIcon.getIconWidth();
+            int iconHeight = imageIcon.getIconHeight();
+            int newWidth;
+            int newHeight;
+            if (iconHeight > iconWidth) {
+                newHeight = WiseConstants.CELL_HEIGHT;
+                newWidth = (int) (iconWidth * ((float) newHeight / (float) iconHeight));
+            } else {
+                newWidth = WiseConstants.CELL_WIDTH;
+                newHeight = (int) (iconHeight * ((float) newWidth / (float) iconWidth));
+            }
+            return new ImageIcon(
+                    imageIcon.getImage().getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH));
         }
-        return new ImageIcon(imageIcon.getImage().getScaledInstance(newWidth, newHeight, java.awt.Image.SCALE_SMOOTH));
     }
 
     @Override public void aboutDialog() {

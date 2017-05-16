@@ -37,7 +37,7 @@ public class AboutDialog extends JDialog {
         appVersion = appVersion != null ? appVersion : "DEVELOPMENT";
 
         JLabel versionLabel = new JLabel("WiseViewer V." + appVersion);
-        JLabel authorLabel = new JLabel("Developped by Ordus 2015");
+        JLabel authorLabel = new JLabel("Developped by Ordus 2017");
         JLabel licenseLabel = new JLabel("Apache 2 license");
 
         JPanel aboutPanel = new JPanel();

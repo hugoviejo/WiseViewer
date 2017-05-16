@@ -46,6 +46,7 @@ public class DownloadServiceImpl implements DownloadService {
     private static final String TEMPFILE_PREFIX = "WiseViewer_list_";
     private static final String TEMPFILE_SUFFIX = "";
     private static final String PASTEBIN_URL = "http://pastebin.com/";
+    private static final String PASTEBIN_SECURE_URL = "https://pastebin.com/";
     private static final String PASTEBIN_RAW_PATH = "raw/";
 
     private CloseableHttpClient httpClient;
@@ -76,6 +77,10 @@ public class DownloadServiceImpl implements DownloadService {
                 if (url.startsWith(PASTEBIN_URL)) {
                     if (!url.substring(PASTEBIN_URL.length()).startsWith(PASTEBIN_RAW_PATH)) {
                         url = PASTEBIN_URL + PASTEBIN_RAW_PATH + url.substring(PASTEBIN_URL.length());
+                    }
+                } else if(url.startsWith(PASTEBIN_SECURE_URL)) {
+                    if (!url.substring(PASTEBIN_SECURE_URL.length()).startsWith(PASTEBIN_RAW_PATH)) {
+                        url = PASTEBIN_SECURE_URL + PASTEBIN_RAW_PATH + url.substring(PASTEBIN_SECURE_URL.length());
                     }
                 }
                 HttpGet request = new HttpGet(url);

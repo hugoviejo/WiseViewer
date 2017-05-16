@@ -19,7 +19,7 @@ package com.ordus.wiseviewer.service;
 import javax.swing.*;
 
 public interface ImageCacheService {
-    ImageIcon getImage(String url);
+    ImageIcon getImage(String url, boolean isResource);
 
     boolean store();
 }

@@ -57,7 +57,7 @@ public interface WiseViewerService {
 
     void watch(Station station);
 
-    Icon loadImage(String imageUrl) throws IOException;
+    Icon loadImage(String imageUrl, boolean isResource) throws IOException;
 
     void aboutDialog();
 }

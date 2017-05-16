@@ -26,6 +26,7 @@ public class Station {
     private String url;
     private String referer;
     private String subtitle;
+    private String info;
     private Boolean isHost;
     private Boolean parental;
     private Map<String, Object> additionalProperties = new HashMap<>();
@@ -88,6 +89,14 @@ public class Station {
         this.subtitle = subtitle;
     }
 
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     /**
      * @return The isHost
      */
@@ -129,6 +138,7 @@ public class Station {
                 ", url='" + url + '\'' +
                 ", referer='" + referer + '\'' +
                 ", subtitle='" + subtitle + '\'' +
+                ", info='" + info +'\'' +
                 ", isHost=" + isHost +
                 ", parental=" + parental +
                 ", additionalProperties=" + additionalProperties +

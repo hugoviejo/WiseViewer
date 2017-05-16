@@ -28,6 +28,7 @@ public final class WiseConstants {
     public static final int CELL_HEIGHT = 250;
     public static final int CELL_HEIGHT_MARGIN = 50;
     public static final int NUM_COLS = 4;
+    public static final int NUM_COLS_MAIN = 3;
     public static final int HTTP_TIMEOUT = 2 * 60 * 1000;
 
     public static final long LIST_CACHED_MILLISECONDS = 1000L * 60L * 60L * 24L;
@@ -41,5 +42,9 @@ public final class WiseConstants {
     public static final String LISTS_PATH = "./lists";
 
     public static final String PROPERTIE_VIDEOPLAYER = "watch.videoplayer";
+
+    public static final String DOWNLOADING_IMAGE = "/img/downloading.png";
+    public static final String DEFAULT_STATION_IMAGE = "/img/play.png";
+    public static final String DEFAULT_GROUP_IMAGE = "/img/folder.png";
 
 }

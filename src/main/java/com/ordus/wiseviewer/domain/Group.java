@@ -25,6 +25,7 @@ public class Group {
 
     private String name;
     private String image;
+    private String info;
     private Boolean parental;
     private List<Group> groups = new ArrayList<>();
     private List<Station> stations = new ArrayList<>();
@@ -56,6 +57,14 @@ public class Group {
      */
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public Boolean getParental() {
@@ -104,6 +113,7 @@ public class Group {
         return "Group{" +
                 "name='" + name + '\'' +
                 ", image='" + image + '\'' +
+                ", info='" + info + '\'' +
                 ", parental=" + parental +
                 ", groups=" + groups +
                 ", stations=" + stations +

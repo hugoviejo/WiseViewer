@@ -24,6 +24,7 @@ import javax.swing.*;
 import com.ordus.wiseviewer.domain.ListElement;
 import com.ordus.wiseviewer.service.ListsManagementService;
 import com.ordus.wiseviewer.service.WiseViewerService;
+import com.ordus.wiseviewer.util.WiseConstants;
 
 public class ListsPanel extends JPanel {
     private WiseViewerService wiseService;
@@ -41,7 +42,6 @@ public class ListsPanel extends JPanel {
         setLayout(new BorderLayout());
 
         centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(3, 4));
         JScrollPane scrollPane = new JScrollPane(centerPanel);
         add(scrollPane, BorderLayout.CENTER);
 
@@ -57,6 +57,9 @@ public class ListsPanel extends JPanel {
     private void loadData() {
         centerPanel.removeAll();
         java.util.List<ListElement> fullList = listsManagementService.load();
+        int cols = WiseConstants.NUM_COLS_MAIN;
+        int rows = (int) Math.ceil(fullList.size() / (float) cols);
+        centerPanel.setLayout(new GridLayout(rows, cols));
         for (ListElement currentList : fullList) {
             centerPanel.add(new ListElementPanel(wiseService, listsManagementService, currentList));
         }

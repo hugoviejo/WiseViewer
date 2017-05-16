@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ordus.wiseviewer.domain.Station;
+import com.ordus.wiseviewer.service.LoadImageThread;
 import com.ordus.wiseviewer.service.WiseViewerService;
 import com.ordus.wiseviewer.util.WiseConstants;
 
@@ -50,12 +51,18 @@ public class StationPanel extends JPanel {
                 new Dimension(WiseConstants.CELL_WIDTH, WiseConstants.CELL_HEIGHT + WiseConstants.CELL_HEIGHT_MARGIN));
         JLabel wIcon;
         try {
-            wIcon = new JLabel(wiseService.loadImage(station.getImage()));
+        //    wIcon = new JLabel(wiseService.loadImage(station.getImage()));
+            wIcon = new JLabel(wiseService.loadImage(WiseConstants.DOWNLOADING_IMAGE, true));
         } catch (IOException | NullPointerException e) {
             LOG.warn("Error: " + e.getMessage() + " station: " + station, e);
             wIcon = new JLabel(station.getName());
+
         }
-        wIcon.setToolTipText(station.getName());
+        if(station.getInfo() != null) {
+            wIcon.setToolTipText(station.getInfo());
+        } else {
+            wIcon.setToolTipText(station.getName());
+        }
         wIcon.addMouseListener(new MouseAdapter() {
             @Override public void mouseClicked(MouseEvent e) {
                 switch (e.getButton()) {
@@ -79,5 +86,8 @@ public class StationPanel extends JPanel {
 
         add(wIcon, BorderLayout.CENTER);
         add(namePanel, BorderLayout.SOUTH);
+
+        new LoadImageThread(wiseService, wIcon, station.getImage(), WiseConstants.DEFAULT_STATION_IMAGE);
     }
+
 }
